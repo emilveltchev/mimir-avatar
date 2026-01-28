@@ -347,15 +347,11 @@
         
         async function fetchStatus() {
             try {
-                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-                    headers: { 'Accept': 'application/vnd.github.v3+json' }
-                });
+                const response = await fetch(`https://gist.githubusercontent.com/emilveltchev/${GIST_ID}/raw/gistfile0.txt?t=${Date.now()}`);
                 
                 if (!response.ok) throw new Error('Failed to fetch');
                 
-                const gist = await response.json();
-                const filename = Object.keys(gist.files)[0];
-                const content = JSON.parse(gist.files[filename].content);
+                const content = JSON.parse(await response.text());
                 
                 if (!connected) {
                     connected = true;
