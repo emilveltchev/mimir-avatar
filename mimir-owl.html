@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mimir 🦉</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e4e4e7;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .status {
+            font-size: 0.9rem;
+            color: #71717a;
+            margin-bottom: 2rem;
+        }
+        
+        .owl-container {
+            position: relative;
+            width: 200px;
+            height: 220px;
+            margin: 0 auto;
+        }
+        
+        /* Owl body */
+        .owl {
+            position: relative;
+            width: 160px;
+            height: 180px;
+            margin: 0 auto;
+        }
+        
+        .body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+            border-radius: 50% 50% 45% 45%;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        .body::before {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 90px;
+            background: linear-gradient(180deg, #ddd6fe 0%, #c4b5fd 100%);
+            border-radius: 50% 50% 45% 45%;
+        }
+        
+        /* Head */
+        .head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 100px;
+            background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%);
+            border-radius: 50% 50% 40% 40%;
+        }
+        
+        /* Ears */
+        .ear {
+            position: absolute;
+            top: -15px;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(180deg, #7c3aed, #6d28d9);
+            border-radius: 50% 50% 0 0;
+        }
+        .ear.left { left: 15px; transform: rotate(-15deg); }
+        .ear.right { right: 15px; transform: rotate(15deg); }
+        
+        .ear::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 20px;
+            background: #c4b5fd;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        /* Eyes */
+        .eyes {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .eye {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pupil {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #1e1b4b;
+            border-radius: 50%;
+            transition: all 0.1s ease;
+        }
+        
+        .pupil::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        /* Beak */
+        .beak {
+            position: absolute;
+            top: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid #f59e0b;
+        }
+        
+        /* Wings */
+        .wing {
+            position: absolute;
+            bottom: 40px;
+            width: 35px;
+            height: 70px;
+            background: linear-gradient(180deg, #7c3aed, #5b21b6);
+            border-radius: 50%;
+            transform-origin: top center;
+            transition: transform 0.3s ease;
+        }
+        .wing.left { left: -5px; transform: rotate(10deg); }
+        .wing.right { right: -5px; transform: rotate(-10deg); }
+        
+        /* Feet */
+        .feet {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+        }
+        
+        .foot {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .toe {
+            width: 10px;
+            height: 20px;
+            background: #f59e0b;
+            border-radius: 0 0 50% 50%;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+        
+        @keyframes thinking {
+            0%, 100% { transform: translate(-50%, -50%); }
+            25% { transform: translate(-30%, -50%); }
+            75% { transform: translate(-70%, -50%); }
+        }
+        
+        @keyframes wingFlap {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+        }
+        
+        @keyframes wingFlapRight {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        
+        .owl-container.idle .owl {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .owl-container.idle .eye {
+            animation: blink 4s ease-in-out infinite;
+        }
+        
+        .owl-container.thinking .pupil {
+            animation: thinking 1s ease-in-out infinite;
+        }
+        
+        .owl-container.typing .wing.left {
+            animation: wingFlap 0.3s ease-in-out infinite;
+        }
+        
+        .owl-container.typing .wing.right {
+            animation: wingFlapRight 0.3s ease-in-out infinite;
+        }
+        
+        /* Controls */
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-idle { background: #6366f1; color: white; }
+        .btn-thinking { background: #f59e0b; color: white; }
+        .btn-typing { background: #10b981; color: white; }
+        
+        .btn:hover { transform: scale(1.05); }
+        .btn.active { box-shadow: 0 0 0 3px rgba(255,255,255,0.5); }
+        
+        .message {
+            margin-top: 2rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            max-width: 300px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .message.visible { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mimir</h1>
+        <p class="status">Your proactive AI companion</p>
+        
+        <div class="owl-container idle" id="owl">
+            <div class="owl">
+                <div class="head">
+                    <div class="ear left"></div>
+                    <div class="ear right"></div>
+                    <div class="eyes">
+                        <div class="eye"><div class="pupil"></div></div>
+                        <div class="eye"><div class="pupil"></div></div>
+                    </div>
+                    <div class="beak"></div>
+                </div>
+                <div class="body"></div>
+                <div class="wing left"></div>
+                <div class="wing right"></div>
+                <div class="feet">
+                    <div class="foot">
+                        <div class="toe"></div>
+                        <div class="toe"></div>
+                        <div class="toe"></div>
+                    </div>
+                    <div class="foot">
+                        <div class="toe"></div>
+                        <div class="toe"></div>
+                        <div class="toe"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-idle active" onclick="setState('idle')">😌 Idle</button>
+            <button class="btn btn-thinking" onclick="setState('thinking')">🤔 Thinking</button>
+            <button class="btn btn-typing" onclick="setState('typing')">⌨️ Typing</button>
+        </div>
+        
+        <div class="message" id="message"></div>
+    </div>
+    
+    <script>
+        const owl = document.getElementById('owl');
+        const message = document.getElementById('message');
+        const buttons = document.querySelectorAll('.btn');
+        
+        const messages = {
+            idle: "Just hanging out, watching over things... 🦉",
+            thinking: "Hmm, let me think about that...",
+            typing: "Working on something for you!"
+        };
+        
+        function setState(state) {
+            owl.className = 'owl-container ' + state;
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.btn-' + state).classList.add('active');
+            
+            message.textContent = messages[state];
+            message.classList.add('visible');
+            
+            setTimeout(() => message.classList.remove('visible'), 3000);
+        }
+        
+        // Eyes follow cursor
+        document.addEventListener('mousemove', (e) => {
+            const pupils = document.querySelectorAll('.pupil');
+            const rect = owl.getBoundingClientRect();
+            const owlCenterX = rect.left + rect.width / 2;
+            const owlCenterY = rect.top + rect.height / 3;
+            
+            const angle = Math.atan2(e.clientY - owlCenterY, e.clientX - owlCenterX);
+            const distance = Math.min(8, Math.hypot(e.clientX - owlCenterX, e.clientY - owlCenterY) / 30);
+            
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+            
+            pupils.forEach(pupil => {
+                if (!owl.classList.contains('thinking')) {
+                    pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
